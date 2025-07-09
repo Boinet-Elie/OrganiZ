@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrganiZ'</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="Style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-leaf"></i> OrganiZ'</h1>
+            <div class="date-display" id="current-date"></div>
+        </header>
+        <aside class="sidebar">
+            <ul>
+                <li data-tab="todo" class="active"><i class="fas fa-tasks"></i> To-Do</li>
+                <li data-tab="habits"><i class="fas fa-check-circle"></i> Habitudes</li>
+                <li data-tab="calendar"><i class="fas fa-calendar-alt"></i> Calendrier</li>
+                <li data-tab="timer"><i class="fas fa-clock"></i> Timer</li>
+                <li data-tab="budget"><i class="fas fa-wallet"></i> Budget</li>
+            </ul>
+        </aside>
+        <main>
+            <section id="todo" class="tab-content active">
+                <h2><i class="fas fa-tasks"></i> Liste des tâches</h2>
+                <div class="todo-controls">
+                    <input type="text" id="new-task" placeholder="Nouvelle tâche...">
+                    <select id="task-category">
+                        <option value="uncategorized">Sans catégorie</option>
+                    </select>
+                    <select id="task-priority">
+                        <option value="low">Faible</option>
+                        <option value="medium">Moyen</option>
+                        <option value="high">Élevé</option>
+                    </select>
+                    <button id="add-task"><i class="fas fa-plus"></i> Ajouter</button>
+                    <input type="text" id="new-category" placeholder="Nouvelle catégorie...">
+                    <button id="add-category"><i class="fas fa-plus"></i> Ajouter catégorie</button>
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">Toutes</button>
+                </div>
+                <ul id="task-list"></ul>
+            </section>
+            <section id="habits" class="tab-content">
+                <h2><i class="fas fa-check-circle"></i> Suivi des habitudes</h2>
+                <div class="habit-controls">
+                    <input type="text" id="new-habit" placeholder="Nouvelle habitude...">
+                    <button id="add-habit"><i class="fas fa-plus"></i> Ajouter</button>
+                </div>
+                <div class="habit-container">
+                    <div class="habit-list">
+                        <div id="habit-list"></div>
+                    </div>
+                    <div class="habit-chart">
+                        <canvas id="habit-tracker-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+            <section id="calendar" class="tab-content">
+                <h2><i class="fas fa-calendar-alt"></i> Calendrier</h2>
+                <div class="calendar-controls">
+                    <button id="prev-month"><i class="fas fa-chevron-left"></i> Précédent</button>
+                    <h3 id="current-month-year">Juillet 2023</h3>
+                    <button id="next-month">Suivant <i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="calendar-grid" id="calendar-grid"></div>
+                <div class="event-form">
+                    <h3><i class="fas fa-calendar-plus"></i> Ajouter un événement</h3>
+                    <input type="text" id="event-title" placeholder="Titre de l'événement">
+                    <input type="date" id="event-date">
+                    <textarea id="event-desc" placeholder="Description (optionnel)"></textarea>
+                    <button id="add-event"><i class="fas fa-plus"></i> Ajouter l'événement</button>
+                </div>
+            </section>
+            <section id="timer" class="tab-content">
+                <h2><i class="fas fa-clock"></i> Timer</h2>
+                <div class="timer-display">
+                    <div class="time" id="time">25:00</div>
+                    <div class="timer-controls">
+                        <button id="start-timer"><i class="fas fa-play"></i> Démarrer</button>
+                        <button id="pause-timer" disabled><i class="fas fa-pause"></i> Pause</button>
+                        <button id="reset-timer"><i class="fas fa-redo"></i> Réinitialiser</button>
+                    </div>
+                    <div class="timer-settings">
+                        <label for="timer-minutes">Minutes:</label>
+                        <input type="number" id="timer-minutes" value="25" min="1" max="120">
+                        <button id="set-timer"><i class="fas fa-cog"></i> Définir</button>
+                    </div>
+                </div>
+                <div class="timer-history">
+                    <h3><i class="fas fa-history"></i> Historique</h3>
+                    <button id="clear-timer-history"><i class="fas fa-trash"></i> Effacer l'historique</button>
+                    <ul id="timer-sessions"></ul>
+                </div>
+            </section>
+            <section id="budget" class="tab-content">
+                <h2><i class="fas fa-wallet"></i> Budget</h2>
+                <div class="budget-controls">
+                    <input type="text" id="new-transaction" placeholder="Description...">
+                    <input type="number" id="transaction-amount" placeholder="Montant" step="0.01">
+                    <select id="transaction-type">
+                        <option value="income">Revenu</option>
+                        <option value="expense">Dépense</option>
+                    </select>
+                    <select id="transaction-category">
+                        <option value="uncategorized">Sans catégorie</option>
+                    </select>
+                    <input type="date" id="transaction-date">
+                    <button id="add-transaction"><i class="fas fa-plus"></i> Ajouter</button>
+                    <input type="text" id="new-budget-category" placeholder="Nouvelle catégorie...">
+                    <button id="add-budget-category"><i class="fas fa-plus"></i> Ajouter catégorie</button>
+                </div>
+                <div class="budget-filters">
+                    <button class="filter-btn active" data-filter="all">Toutes</button>
+                </div>
+                <div class="budget-summary">
+                    <canvas id="budget-chart"></canvas>
+                    <div class="summary-details">
+                        <div>Total Revenus: <span id="total-income">0.00</span> €</div>
+                        <div>Total Dépenses: <span id="total-expense">0.00</span> €</div>
+                        <div>Total Balance: <span id="balance">0.00</span> €</div>
+                    </div>
+                </div>
+                <ul id="transaction-list"></ul>
+            </section>
+        </main>
+    </div>
+    <script src="Script.js"></script>
+</body>
+</html>
